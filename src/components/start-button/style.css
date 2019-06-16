@@ -1,0 +1,9 @@
+.start-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  padding: 15px;
+  border-radius: 5px;
+  background: #066f06;
+  color: #fff;
+}

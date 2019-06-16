@@ -1,0 +1,38 @@
+.draggable-area {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.draggable-block {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  cursor: move;
+ 
+  &:hover {
+    background: #cacaca;
+    box-shadow: 0 0 1px 1px
+  }
+
+  &_dragging {
+    opacity: 0;
+    border: 1px dashed black;
+  }
+
+  &__id {
+    text-align: center;
+  }
+
+  &__title {
+    text-align: center;
+  }
+}

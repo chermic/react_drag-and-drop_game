@@ -1,0 +1,10 @@
+html {
+  background: #ececec;
+}
+
+.app {
+  margin: 0 auto;
+  max-width: 1200px;
+  color: #404040;
+  position: relative;
+}
