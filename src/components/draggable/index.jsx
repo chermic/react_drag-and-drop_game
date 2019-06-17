@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { useStateValue } from '../../state';
+import { useStateValue } from 'state';
 
 import DraggableBlock from './DraggableBlock';
 
 import styles from './style';
 
 const DraggableArea = () => {
-  const [ { draggableBoxes }, dispatch ] = useStateValue();
+  const [{ draggableBoxes }] = useStateValue();
 
   return (
     <div className={styles['draggable-area']}>

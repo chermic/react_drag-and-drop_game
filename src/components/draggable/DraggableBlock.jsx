@@ -2,7 +2,7 @@ import React from 'react'
 import { useDrag } from 'react-dnd';
 import cn from 'classnames';
 
-import { useStateValue } from '../../state';
+import { useStateValue } from 'state';
 
 import styles from './style';
 
@@ -16,6 +16,7 @@ const DraggableBlock = ({ id, title }) => {
     },
     end: (dropResult, monitor) => {
     },
+    canDrag: () => isGameRunning,
     collect: (monitor) => {
       return {
         isDragging: monitor.isDragging(),

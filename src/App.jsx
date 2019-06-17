@@ -3,11 +3,11 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import produce from 'immer';
 
-import { StateProvider } from './state';
+import { StateProvider } from 'state';
 
 import DraggableArea from './components/draggable';
 import DroppableArea from './components/droppable';
-import StartButton from './components/start-button';
+import StartButton from './components/header/start-button';
 
 import styles from './style';
 
@@ -41,7 +41,7 @@ const getShuffleArray = (array) => {
 
 const initialState = {
   draggableBoxes: getShuffleArray(blocks),
-  nextNumber: 1,
+  nextNumber: null,
   isGameRunning: false,
 };
 
@@ -55,6 +55,7 @@ const reducer = produce((draft, action) => {
     };
     case 'START_GAME':
       draft.isGameRunning = true;
+      draft.nextNumber = 1;
       return;
   }
 });

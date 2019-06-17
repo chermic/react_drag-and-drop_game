@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDrop } from 'react-dnd';
 
-import { useStateValue } from '../../state'
+import { useStateValue } from 'state'
 
 import styles from './style';
 

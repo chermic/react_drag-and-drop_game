@@ -1,10 +1,10 @@
-import React from 'react'
+import * as React from 'react'
 
-import { useStateValue } from '../../state';
+import { useStateValue } from 'state';
 
 import styles from './style';
 
-const StartButton = () => {
+const StartButton: React.FC = (): React.ReactElement<HTMLButtonElement> => {
   const [{ isGameRunning }, dispatch] = useStateValue();
 
   if (isGameRunning) {
