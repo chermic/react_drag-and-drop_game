@@ -81,18 +81,16 @@ const reducer = produce((draft: State, action: AnyAction): void => {
 });
 /* eslint-enable no-param-reassign */
 
-const App = (): React.ReactElement<any> => {
-  return (
-    <StateProvider reducer={reducer} initialState={initialState}>
-      <DndProvider backend={HTML5Backend}>
-        <div className={styles.app}>
-          <DraggableArea />
-          <StartButton />
-          <DroppableArea />
-        </div>
-      </DndProvider>
-    </StateProvider>
-  );
-};
+const App = (): React.ReactElement<any> => (
+  <StateProvider reducer={reducer} initialState={initialState}>
+    <DndProvider backend={HTML5Backend}>
+      <div className={styles.app}>
+        <DraggableArea />
+        <StartButton />
+        <DroppableArea />
+      </div>
+    </DndProvider>
+  </StateProvider>
+);
 
 export default App;
