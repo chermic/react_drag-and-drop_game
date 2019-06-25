@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import produce from 'immer';
@@ -8,18 +8,17 @@ import { StateProvider } from 'state';
 
 import DraggableArea from './components/draggable';
 import DroppableArea from './components/droppable';
-import StartButton from './components/header/start-button';
+import Header from './components/header';
 
 import styles from './style.css';
 
-interface Block {
+export interface Block {
   id: number;
   title: string;
 }
 
 export interface State {
   draggableBoxes: Block[];
-  nextNumber: null | number;
   isGameRunning: boolean;
 }
 
@@ -59,7 +58,6 @@ const getShuffleArray = (array: Block[]): Block[] => {
 
 const initialState: State = {
   draggableBoxes: getShuffleArray(blocks),
-  nextNumber: null,
   isGameRunning: false,
 };
 
@@ -69,13 +67,16 @@ const reducer = produce((draft: State, action: AnyAction): void => {
     case 'SUCCESS_DROP': {
       const { id } = action.payload;
       draft.draggableBoxes = draft.draggableBoxes.filter((box: Block): boolean => box.id !== id);
-      draft.nextNumber += 1;
       break;
     }
     case 'START_GAME':
       draft.isGameRunning = true;
-      draft.nextNumber = 1;
       break;
+
+    case 'PAUSE_GAME':
+      draft.isGameRunning = false;
+      break;
+
     // no default
   }
 });
@@ -85,8 +86,8 @@ const App = (): React.ReactElement<any> => (
   <StateProvider reducer={reducer} initialState={initialState}>
     <DndProvider backend={HTML5Backend}>
       <div className={styles.app}>
+        <Header />
         <DraggableArea />
-        <StartButton />
         <DroppableArea />
       </div>
     </DndProvider>

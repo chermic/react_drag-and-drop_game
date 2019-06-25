@@ -1,25 +1,24 @@
-import * as React from 'react';
-
-import { useStateValue } from 'state';
+import React, { FC, ReactElement } from 'react';
+import Button from '@material-ui/core/Button';
 
 import styles from './style.css';
 
-const StartButton: React.FC = (): React.ReactElement<HTMLButtonElement> => {
-  const [{ isGameRunning }, dispatch] = useStateValue();
+interface StartButtonProps {
+  isGameRunning: boolean;
+  startGame(): void;
+  pauseGame(): void;
+}
 
-  if (isGameRunning) {
-    return <React.Fragment />;
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={(): void => dispatch({ type: 'START_GAME' })}
-      className={styles['start-button']}
-    >
-      Start game
-    </button>
-  );
-};
+const StartButton: FC<StartButtonProps> = (
+  { startGame, pauseGame, isGameRunning }: StartButtonProps,
+): ReactElement<HTMLButtonElement> => (
+  <Button
+    onClick={isGameRunning ? pauseGame : startGame}
+    variant="contained"
+    color="primary"
+  >
+    {isGameRunning ? 'Pause' : 'Start'}
+  </Button>
+);
 
 export default StartButton;

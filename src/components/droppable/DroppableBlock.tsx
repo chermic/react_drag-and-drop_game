@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useRef,
+} from 'react';
 import { useDrop } from 'react-dnd';
 
 import { useStateValue } from 'state';
 
 import styles from './style.css';
+import { Block } from 'App';
 
 interface CollectProps {
   isOver: boolean;
@@ -17,10 +23,10 @@ interface CollectProps {
 const type = 'block';
 const defaultText = 'Drop block to start';
 
-const DroppableBlock: React.FC<CollectProps> = (): React.ReactElement<HTMLDivElement> => {
-  const timerId = React.useRef(0);
-  const [droppableText, setDroppableText] = React.useState(defaultText);
-  const [{ nextNumber }, dispatch] = useStateValue();
+const DroppableBlock: FC<CollectProps> = (): ReactElement<HTMLDivElement> => {
+  const [droppableText, setDroppableText] = useState(defaultText);
+  const [{ draggableBoxes }, dispatch] = useStateValue();
+  const timerId = useRef(0);
 
   const backToNormalText = (): void => {
     clearTimeout(timerId.current);
@@ -30,6 +36,7 @@ const DroppableBlock: React.FC<CollectProps> = (): React.ReactElement<HTMLDivEle
   };
 
   const onSuccess = (id: number): void => dispatch({ type: 'SUCCESS_DROP', payload: { id } });
+  const nextBlockId: number = Math.min(...draggableBoxes.map(({ id }: Block): number => id));
 
   const [{ isOver, canDrop, item }, drop] = useDrop({
     accept: type,
@@ -40,7 +47,7 @@ const DroppableBlock: React.FC<CollectProps> = (): React.ReactElement<HTMLDivEle
       backToNormalText();
       onSuccess(dragObject.id);
     },
-    canDrop: (dragObject, monitor): boolean => dragObject.id === nextNumber,
+    canDrop: (dragObject, monitor): boolean => dragObject.id === nextBlockId,
     collect: (monitor): CollectProps => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -55,7 +62,7 @@ const DroppableBlock: React.FC<CollectProps> = (): React.ReactElement<HTMLDivEle
 
   let resultText = droppableText;
   if (isOver) {
-    resultText = item.id === nextNumber
+    resultText = item.id === nextBlockId
       ? 'Yeah, release there!'
       : 'Wrong block, don\'t do it!';
   }
