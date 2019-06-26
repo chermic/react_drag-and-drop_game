@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 
 import { useStateValue } from 'state';
 
@@ -7,7 +7,13 @@ import DraggableBlock from './DraggableBlock';
 import styles from './style.css';
 
 const DraggableArea = (): React.ReactElement<HTMLDivElement> => {
-  const [{ draggableBoxes }] = useStateValue();
+  const [{ draggableBoxes }, dispatch] = useStateValue();
+
+  useEffect((): void => {
+    if (draggableBoxes.length === 0) {
+      dispatch({ type: 'FINISH_GAME' });
+    }
+  }, [draggableBoxes]);
 
   return (
     <div className={styles['draggable-area']}>

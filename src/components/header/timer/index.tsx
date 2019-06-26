@@ -5,14 +5,16 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
+import cn from 'classnames';
 
 import { formatTimeValue } from './utils';
 
 interface TimerProps {
   isGameRunning: boolean;
+  isGameFinished: boolean;
 }
 
-const Timer: FC<TimerProps> = ({ isGameRunning }: TimerProps): ReactElement<HTMLDivElement> => {
+const Timer: FC<TimerProps> = ({ isGameRunning, isGameFinished }: TimerProps): ReactElement<HTMLDivElement> => {
   const [minutes, setMinutes] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(0);
   const [milliseconds, setMilliseconds] = useState<number>(0);
@@ -50,12 +52,13 @@ const Timer: FC<TimerProps> = ({ isGameRunning }: TimerProps): ReactElement<HTML
     };
   }, [isGameRunning]);
 
-
-  return (
-    <span>
+  const time = (
+    <span className={cn({ 'blink-text': isGameFinished })}>
       {`${formatTimeValue(minutes)}:${formatTimeValue(seconds)}:${formatTimeValue(milliseconds)}`}
     </span>
   );
+
+  return time;
 };
 
 export default Timer;

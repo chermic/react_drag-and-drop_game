@@ -20,6 +20,7 @@ export interface Block {
 export interface State {
   draggableBoxes: Block[];
   isGameRunning: boolean;
+  isGameFinished: boolean;
 }
 
 export interface AnyAction {
@@ -59,6 +60,7 @@ const getShuffleArray = (array: Block[]): Block[] => {
 const initialState: State = {
   draggableBoxes: getShuffleArray(blocks),
   isGameRunning: false,
+  isGameFinished: false,
 };
 
 /* eslint-disable no-param-reassign */
@@ -74,6 +76,11 @@ const reducer = produce((draft: State, action: AnyAction): void => {
       break;
 
     case 'PAUSE_GAME':
+      draft.isGameRunning = false;
+      break;
+
+    case 'FINISH_GAME':
+      draft.isGameFinished = true;
       draft.isGameRunning = false;
       break;
 

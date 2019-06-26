@@ -7,3 +7,13 @@ html {
   max-width: 1200px;
   color: #404040;
 }
+
+:global(.blink-text) {
+  animation: blink 5 1s linear;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

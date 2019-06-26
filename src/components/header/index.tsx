@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = (props: HeaderProps): ReactElement<HTMLDivElement> => {
-  const [{ isGameRunning }, dispatch] = useStateValue();
+  const [{ isGameRunning, isGameFinished }, dispatch] = useStateValue();
 
   const startGame = (): void => {
     dispatch({ type: 'START_GAME' });
@@ -25,8 +25,9 @@ const Header: FC<HeaderProps> = (props: HeaderProps): ReactElement<HTMLDivElemen
         startGame={startGame}
         pauseGame={pauseGame}
         isGameRunning={isGameRunning}
+        isGameFinished={isGameFinished}
       />
-      <Timer isGameRunning={isGameRunning} />
+      <Timer isGameRunning={isGameRunning} isGameFinished={isGameFinished} />
     </div>
   );
 };

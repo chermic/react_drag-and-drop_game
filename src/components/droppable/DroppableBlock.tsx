@@ -2,14 +2,14 @@ import React, {
   FC,
   ReactElement,
   useState,
-  useRef,
 } from 'react';
 import { useDrop } from 'react-dnd';
+import cn from 'classnames';
+import { Block } from 'App';
 
 import { useStateValue } from 'state';
 
 import styles from './style.css';
-import { Block } from 'App';
 
 interface CollectProps {
   isOver: boolean;
@@ -21,19 +21,10 @@ interface CollectProps {
 }
 
 const type = 'block';
-const defaultText = 'Drop block to start';
 
 const DroppableBlock: FC<CollectProps> = (): ReactElement<HTMLDivElement> => {
-  const [droppableText, setDroppableText] = useState(defaultText);
+  const [droppableText, setDroppableText] = useState<string>('Drop block from min to max as fast as possible');
   const [{ draggableBoxes }, dispatch] = useStateValue();
-  const timerId = useRef(0);
-
-  const backToNormalText = (): void => {
-    clearTimeout(timerId.current);
-    timerId.current = setTimeout((): void => {
-      setDroppableText(defaultText);
-    }, 3000);
-  };
 
   const onSuccess = (id: number): void => dispatch({ type: 'SUCCESS_DROP', payload: { id } });
   const nextBlockId: number = Math.min(...draggableBoxes.map(({ id }: Block): number => id));
@@ -44,7 +35,7 @@ const DroppableBlock: FC<CollectProps> = (): ReactElement<HTMLDivElement> => {
     },
     drop: (dragObject, monitor): void => {
       setDroppableText(`You was drop ${dragObject.title}`);
-      backToNormalText();
+      setDroppableText(`Yeah! Next block number is ${nextBlockId + 1}!`);
       onSuccess(dragObject.id);
     },
     canDrop: (dragObject, monitor): boolean => dragObject.id === nextBlockId,
@@ -64,7 +55,10 @@ const DroppableBlock: FC<CollectProps> = (): ReactElement<HTMLDivElement> => {
   if (isOver) {
     resultText = item.id === nextBlockId
       ? 'Yeah, release there!'
-      : 'Wrong block, don\'t do it!';
+      : "Wrong block, don't do it!";
+  }
+  if (draggableBoxes.length === 0) {
+    resultText = 'Conratulations! You win!';
   }
 
   return (
@@ -73,7 +67,7 @@ const DroppableBlock: FC<CollectProps> = (): ReactElement<HTMLDivElement> => {
       ref={drop}
       style={{ background }}
     >
-      {resultText}
+      <span className={cn({ 'blink-text': draggableBoxes.length === 0 })}>{resultText}</span>
     </div>
   );
 };
