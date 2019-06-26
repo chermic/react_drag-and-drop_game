@@ -47,15 +47,12 @@ const DroppableBlock: FC<CollectProps> = (): ReactElement<HTMLDivElement> => {
   });
 
   let background = '#212121';
-  if (isOver) {
-    background = canDrop ? '#42af42' : '#980000';
-  }
-
   let resultText = droppableText;
   if (isOver) {
     resultText = item.id === nextBlockId
       ? 'Yeah, release there!'
       : "Wrong block, don't do it!";
+    background = canDrop ? '#42af42' : '#980000';
   }
   if (draggableBoxes.length === 0) {
     resultText = 'Conratulations! You win!';
