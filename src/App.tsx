@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import produce from 'immer';
@@ -17,10 +17,16 @@ export interface Block {
   title: string;
 }
 
+interface Result {
+  [key: string]: number;
+}
+
 export interface State {
   draggableBoxes: Block[];
   isGameRunning: boolean;
   isGameFinished: boolean;
+  leaderboard: Result[];
+  currentResult: number | null;
 }
 
 export interface AnyAction {
@@ -57,10 +63,17 @@ const getShuffleArray = (array: Block[]): Block[] => {
   return result;
 };
 
+const ls = JSON.parse(localStorage.getItem('leaderboard') || '{}');
+const leaderboard = ls.leaderboard && ls.leaderboard.length
+  ? ls.leaderboard
+  : [];
+
 const initialState: State = {
   draggableBoxes: getShuffleArray(blocks),
   isGameRunning: false,
   isGameFinished: false,
+  leaderboard,
+  currentResult: null,
 };
 
 /* eslint-disable no-param-reassign */
@@ -84,21 +97,31 @@ const reducer = produce((draft: State, action: AnyAction): void => {
       draft.isGameRunning = false;
       break;
 
+    case 'SET_CURRENT_RESULT':
+      draft.currentResult = action.payload.currentResult;
+      break;
+
     // no default
   }
 });
 /* eslint-enable no-param-reassign */
 
-const App = (): React.ReactElement<any> => (
-  <StateProvider reducer={reducer} initialState={initialState}>
-    <DndProvider backend={HTML5Backend}>
-      <div className={styles.app}>
-        <Header />
-        <DraggableArea />
-        <DroppableArea />
-      </div>
-    </DndProvider>
-  </StateProvider>
-);
+const App = (): React.ReactElement<any> => {
+  useEffect((): void => {
+
+  })
+
+  return (
+    <StateProvider reducer={reducer} initialState={initialState}>
+      <DndProvider backend={HTML5Backend}>
+        <div className={styles.app}>
+          <Header />
+          <DraggableArea />
+          <DroppableArea />
+        </div>
+      </DndProvider>
+    </StateProvider>
+  );
+};
 
 export default App;

@@ -12,9 +12,12 @@ import { formatTimeValue } from './utils';
 interface TimerProps {
   isGameRunning: boolean;
   isGameFinished: boolean;
+  dispatch: Function;
 }
 
-const Timer: FC<TimerProps> = ({ isGameRunning, isGameFinished }: TimerProps): ReactElement<HTMLDivElement> => {
+const Timer: FC<TimerProps> = (
+  { isGameRunning, isGameFinished, dispatch }: TimerProps,
+): ReactElement<HTMLDivElement> => {
   const [minutes, setMinutes] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(0);
   const [milliseconds, setMilliseconds] = useState<number>(0);
@@ -50,6 +53,15 @@ const Timer: FC<TimerProps> = ({ isGameRunning, isGameFinished }: TimerProps): R
     return (): void => {
       clearInterval(timerRef.current);
     };
+  }, [isGameRunning]);
+
+  useEffect((): void => {
+    if (isGameFinished) {
+      dispatch({
+        action: 'SET_CURRENT_RESULT',
+        payload: { currentResult: minutes * 60000 + seconds * 1000 + milliseconds },
+      });
+    }
   }, [isGameRunning]);
 
   const time = (

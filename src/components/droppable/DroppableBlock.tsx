@@ -5,9 +5,9 @@ import React, {
 } from 'react';
 import { useDrop } from 'react-dnd';
 import cn from 'classnames';
-import { Block } from 'App';
-
 import { useStateValue } from 'state';
+import { Block } from '../../App';
+
 
 import styles from './style.css';
 

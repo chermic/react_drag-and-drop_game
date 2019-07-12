@@ -27,7 +27,7 @@ const Header: FC<HeaderProps> = (props: HeaderProps): ReactElement<HTMLDivElemen
         isGameRunning={isGameRunning}
         isGameFinished={isGameFinished}
       />
-      <Timer isGameRunning={isGameRunning} isGameFinished={isGameFinished} />
+      <Timer isGameRunning={isGameRunning} isGameFinished={isGameFinished} dispatch={dispatch} />
     </div>
   );
 };
